@@ -86,6 +86,11 @@ console.table(filterdiscount);
 // 1. Determine the average percentage discount of the deals
 // 2. Log the average
 
+const totalDiscountSum = deals.reduce((acc, deal) => acc + (deal.discount || 0), 0);
+
+const averageDiscount = totalDiscountSum / deals.length;
+console.log("Pourcentage de remise moyen sur l'ensemble des deals :");
+console.log(`${averageDiscount.toFixed(2)}%`);
 /**
  * 🏎
  * We are almost done with the `deals` variable
@@ -108,6 +113,23 @@ console.table(filterdiscount);
 //
 // 2. Log the variable
 // 3. Log the number of deals by community
+
+const communities = {};
+for(var i=0;i<deals.length;i++)
+{
+  const deal=deals[i];
+  const communityName=deal.community;
+  if (!communities[communityName]) 
+  {
+    communities[communityName] = [];
+  }
+  communities[communityName].push(deal);
+}
+console.log("Objet 'communities' rempli via boucle for :");
+console.log(communities);
+for (const name in communities) {
+  console.log(`${name} : ${communities[name].length} deals`);
+}
 
 // 🎯 TODO 9: Sort by price for each community
 // 1. For each community, sort the deals by discount price, from highest to lowest
