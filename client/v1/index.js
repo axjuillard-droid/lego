@@ -67,7 +67,7 @@ console.log(uniqueCommunities.length)
 // 2. Create a variable and assign it the list of sets by price from lowest to highest
 // 3. Log the variable
 
-dealsortprice=[...deals].sort((a,b)=>a.price-b.price);
+const dealsortprice=[...deals].sort((a,b)=>a.price-b.price);
 console.table(dealsortprice);
 
 // 🎯 TODO 5: Sort by date
