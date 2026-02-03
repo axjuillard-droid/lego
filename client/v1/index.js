@@ -30,6 +30,12 @@ console.log(MY_FAVORITE_DEALERS[0]);
 // 1. Create a new variable and assign it the link of the lego set with the highest reduction I can find on these 2 websites
 // 2. Log the variable
 
+const sortedDeals = [...deals].sort((a, b) => b.discount - a.discount);
+const highestReductionLink = sortedDeals[0].link;
+console.log("🔗 Lien du set avec la réduction la plus élevée :");
+console.log(highestReductionLink);
+console.log(`Réduction : ${sortedDeals[0].discount}%`);
+
 /**
  * 🧱
  * Easy 😁?
@@ -43,15 +49,26 @@ console.log(MY_FAVORITE_DEALERS[0]);
 // 1. Create a variable and assign it the number of deals
 // 2. Log the variable
 
+const nombredeals=deals.length;
+console.log(nombredeals)
+
 // 🎯 TODO 3: Website name
 // 1. Create a variable and assign it the list of shopping community name only
 // 2. Log the variable
 // 3. Log how many shopping communities we have
 
+const allCommunities = deals.map(deal => deal.community);
+const uniqueCommunities = [...new Set(allCommunities)];
+console.log(uniqueCommunities);
+console.log(uniqueCommunities.length)
+
 // 🎯 TODO 4: Sort by price
 // 1. Create a function to sort the deals by price
 // 2. Create a variable and assign it the list of sets by price from lowest to highest
 // 3. Log the variable
+
+dealsortprice=[...deals].sort((a,b)=>a.price-b.price);
+console.table(dealsortprice);
 
 // 🎯 TODO 5: Sort by date
 // 1. Create a function to sort the deals by date
@@ -61,6 +78,9 @@ console.log(MY_FAVORITE_DEALERS[0]);
 // 🎯 TODO 6: Filter a specific percentage discount range
 // 1. Filter the list of deals between 50% and 75%
 // 2. Log the list
+
+const filterdiscount=deals.filter(deal => deal.discount >= 50 && deal.discount <= 75);
+console.table(filterdiscount);
 
 // 🎯 TODO 7: Average percentage discount
 // 1. Determine the average percentage discount of the deals
