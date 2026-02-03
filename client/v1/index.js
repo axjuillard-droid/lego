@@ -134,6 +134,15 @@ for (const name in communities) {
 // 🎯 TODO 9: Sort by price for each community
 // 1. For each community, sort the deals by discount price, from highest to lowest
 // 2. Log the sort
+const communityNames = Object.keys(communities);
+
+for(var i=0;i<communityNames.length;i++)
+{
+  const name=communityNames[i];
+  const community=communities[name];
+  const communitytrier=[...community].sort((a,b)=>b.price-a.price);
+  console.table(communitytrier);
+}
 
 // 🎯 TODO 10: Sort by date for each community
 // 1. For each set, sort the deals by date, from old to recent
