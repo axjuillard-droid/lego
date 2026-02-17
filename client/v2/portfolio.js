@@ -29,15 +29,20 @@ let currentPagination = {};
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const selectLegoSetIds = document.querySelector('#lego-set-id-select');
-const sectionDeals= document.querySelector('#deals');
+const sectionDeals = document.querySelector('#deals');
 const spanNbDeals = document.querySelector('#nbDeals');
+const filterBestDiscount = document.querySelector('#filter-best-discount');
+const filterMostCommented = document.querySelector('#filter-most-commented');
+const filterHotDeals = document.querySelector('#filter-hot-deals');
+const selectSort = document.querySelector('#sort-select');
+
 
 /**
  * Set global value
  * @param {Array} result - deals to display
  * @param {Object} meta - pagination meta info
  */
-const setCurrentDeals = ({result, meta}) => {
+const setCurrentDeals = ({ result, meta }) => {
   currentDeals = result;
   currentPagination = meta;
 };
@@ -57,13 +62,13 @@ const fetchDeals = async (page = 1, size = 6) => {
 
     if (body.success !== true) {
       console.error(body);
-      return {currentDeals, currentPagination};
+      return { currentDeals, currentPagination };
     }
 
     return body.data;
   } catch (error) {
     console.error(error);
-    return {currentDeals, currentPagination};
+    return { currentDeals, currentPagination };
   }
 };
 
@@ -97,9 +102,9 @@ const renderDeals = deals => {
  * @param  {Object} pagination
  */
 const renderPagination = pagination => {
-  const {currentPage, pageCount} = pagination;
+  const { currentPage, pageCount } = pagination;
   const options = Array.from(
-    {'length': pageCount},
+    { 'length': pageCount },
     (value, index) => `<option value="${index + 1}">${index + 1}</option>`
   ).join('');
 
@@ -113,7 +118,7 @@ const renderPagination = pagination => {
  */
 const renderLegoSetIds = deals => {
   const ids = getIdsFromDeals(deals);
-  const options = ids.map(id => 
+  const options = ids.map(id =>
     `<option value="${id}">${id}</option>`
   ).join('');
 
@@ -125,7 +130,7 @@ const renderLegoSetIds = deals => {
  * @param  {Object} pagination
  */
 const renderIndicators = pagination => {
-  const {count} = pagination;
+  const { count } = pagination;
 
   spanNbDeals.innerHTML = count;
 };
@@ -156,4 +161,55 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   setCurrentDeals(deals);
   render(currentDeals, currentPagination);
+});
+
+selectPage.addEventListener('change', async (event) => {
+  const page = parseInt(event.target.value);
+  const size = parseInt(selectShow.value);
+
+  const deals = await fetchDeals(page, size);
+
+  setCurrentDeals(deals);
+  render(currentDeals, currentPagination);
+});
+
+filterBestDiscount.addEventListener('click', () => {
+  console.log(currentDeals); // Debug: Check if 'discount' property exists
+  const filteredDeals = currentDeals.filter(deal => deal.discount > 20);
+  render(filteredDeals, currentPagination);
+});
+
+
+filterMostCommented.addEventListener('click', () => {
+  const filteredDeals = currentDeals.filter(deal => deal.comments > 15);
+  render(filteredDeals, currentPagination);
+});
+
+filterHotDeals.addEventListener('click', () => {
+  const filteredDeals = currentDeals.filter(deal => deal.temperature > 100);
+  render(filteredDeals, currentPagination);
+});
+
+
+
+selectSort.addEventListener('change', (event) => {
+  const sort = event.target.value;
+  let sortedDeals = [...currentDeals];
+
+  switch (sort) {
+    case 'price-asc':
+      sortedDeals.sort((a, b) => a.price - b.price);
+      break;
+    case 'price-desc':
+      sortedDeals.sort((a, b) => b.price - a.price);
+      break;
+    case 'date-asc':
+      sortedDeals.sort((a, b) => new Date(b.published) - new Date(a.published));
+      break;
+    case 'date-desc':
+      sortedDeals.sort((a, b) => new Date(a.published) - new Date(b.published));
+      break;
+  }
+
+  render(sortedDeals, currentPagination);
 });

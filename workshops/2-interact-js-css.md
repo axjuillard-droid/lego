@@ -125,7 +125,7 @@ As a user<br>
 I want to sort by price<br>
 So that I can easily identify cheapest and expensive deals
 
-### Feature 5 - Sort by date
+### Feature 6 - Sort by date
 
 As a user<br>
 I want to sort by date<br>
